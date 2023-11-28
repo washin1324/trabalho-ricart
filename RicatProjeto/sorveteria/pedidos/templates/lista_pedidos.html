@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Pedidos</title>
+</head>
+<body>
+    <h1>Lista de Pedidos</h1>
+    <ul>
+        {% for pedido in pedidos %}
+            <li>{{ pedido.cliente.nome }} - {{ pedido.data_pedido }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
