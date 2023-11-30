@@ -15,6 +15,7 @@ class Sabor(models.Model):
         return self.nome
 
 class Pedido(models.Model):
+    nome = models.CharField(max_length=100)
     cliente = models.ForeignKey('Cliente', on_delete=models.CASCADE)
     sabores = models.ManyToManyField(Sabor)
     data_pedido = models.DateTimeField(auto_now_add=True)
@@ -23,6 +24,7 @@ class Pedido(models.Model):
         return f"{self.cliente.nome} - {self.data_pedido}"
     
 class Estoque(models.Model):
+    nome = models.CharField(max_length=255)
     sabor = models.OneToOneField('Sabor', on_delete=models.CASCADE)
     quantidade = models.PositiveIntegerField()
 
