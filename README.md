@@ -1,6 +1,10 @@
 # trabalho-ricart
 
-# Configurando ambiente virtual
+## Diagrama de entidade e relacionamento
+
+![Diagrama](./assets/sorveteria.png)
+
+## Configurando ambiente virtual
 
 ```bash
 py -m venv .venv
@@ -8,7 +12,7 @@ py -m venv .venv
 pip install -r requirements.txt
 ```
 
-# Iniciando o servidor python
+## Iniciando o servidor python
 
 ```bash
 py manage.py runserver
