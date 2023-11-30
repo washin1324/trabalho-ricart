@@ -1,3 +1,4 @@
+from typing import Any
 from django.shortcuts import render, redirect
 from .models import Cliente, Sabor, Pedido, Estoque
 from django.views import View
@@ -37,6 +38,11 @@ class cliente_add(CreateView):
   fields = ['nome', 'email']
   template_name = 'form.html'
   success_url = '/sorveteria/clientes'
+
+  def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+    context = super().get_context_data(**kwargs)
+    context['title'] = 'Adicionando Clientes'
+    return context
   
 class sabor_add(CreateView):
   model = Sabor
@@ -44,17 +50,32 @@ class sabor_add(CreateView):
   template_name = 'form.html'
   success_url = '/sorveteria/sabores'
 
+  def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+    context = super().get_context_data(**kwargs)
+    context['title'] = 'Adicionando Sabores'
+    return context
+
 class pedido_add(CreateView):
   model = Pedido
   fields = ['nome', 'cliente', 'sabores']
   template_name = 'form.html'
   success_url = '/sorveteria/pedidos'
+
+  def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+    context = super().get_context_data(**kwargs)
+    context['title'] = 'Adicionando Pedidos'
+    return context
   
 class estoque_add(CreateView):
   model = Estoque
   fields = ['nome', 'sabor', 'quantidade']
   template_name = 'form.html'
   success_url = '/sorveteria/estoque'
+
+  def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+    context = super().get_context_data(**kwargs)
+    context['title'] = 'Adicionando Estoque'
+    return context
 
 class cliente_detail(DetailView):
   model = Cliente
@@ -110,11 +131,21 @@ class cliente_update(UpdateView):
   template_name = 'form.html'
   success_url = '/sorveteria/clientes'
 
+  def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+    context = super().get_context_data(**kwargs)
+    context['title'] = 'Atualizando Clientes'
+    return context
+
 class sabor_update(UpdateView):
   model = Sabor
   fields = ['nome', 'descricao']
   template_name = 'form.html'
   success_url = '/sorveteria/sabores'
+
+  def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+    context = super().get_context_data(**kwargs)
+    context['title'] = 'Atualizando Sabores'
+    return context
 
 class pedido_update(UpdateView):
   model = Pedido
@@ -122,11 +153,21 @@ class pedido_update(UpdateView):
   template_name = 'form.html'
   success_url = '/sorveteria/pedidos'
 
+  def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+    context = super().get_context_data(**kwargs)
+    context['title'] = 'Atualizando Pedidos'
+    return context
+
 class estoque_update(UpdateView):
   model = Estoque
   fields = ['nome', 'sabor', 'quantidade']
   template_name = 'form.html'
   success_url = '/sorveteria/estoque'
+
+  def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+    context = super().get_context_data(**kwargs)
+    context['title'] = 'Atualizando Estoque'
+    return context
 
 class cliente_delete(DeleteView):
   model = Cliente
