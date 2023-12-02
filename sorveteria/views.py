@@ -1,9 +1,27 @@
 from typing import Any
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from .models import Cliente, Sabor, Pedido, Estoque
 from django.views import View
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.db.models import ManyToManyField
+
+# This function is used to get the values of all fields of a model instance
+def get_field_values(instance):
+  field_values = {}
+  fields = instance._meta.get_fields(include_hidden=True)
+
+  for field in fields:
+    try:
+      if isinstance(field, ManyToManyField):
+        related_objects = getattr(instance, field.name).all()
+        field_values[field.name] = ', '.join(str(obj) for obj in related_objects)
+      else:
+        field_values[field.name] = getattr(instance, field.name)
+    except Exception:
+        pass
+
+  return field_values
 
 class home_page(View):
   def get(self, request):
@@ -82,10 +100,8 @@ class cliente_detail(DetailView):
   template_name = 'instance-details.html'
 
   def get_context_data(self, **kwargs):
-    context = super().get_context_data(**kwargs)
-    fields = context['object']._meta.get_fields()
-    field_values = {field.name: getattr(context['object'], field.name) for field in fields if hasattr(context['object'], field.name)}
-    context['object'] = field_values
+    context = super().get_context_data(**kwargs)   
+    context['object'] = get_field_values(context['object'])
     context['Entity'] = 'clientes'
     return context
 
@@ -95,9 +111,7 @@ class sabor_detail(DetailView):
 
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
-    fields = context['object']._meta.get_fields()
-    field_values = {field.name: getattr(context['object'], field.name) for field in fields if hasattr(context['object'], field.name)}
-    context['object'] = field_values
+    context['object'] = get_field_values(context['object'])
     context['Entity'] = 'sabores'
     return context
 
@@ -107,9 +121,7 @@ class pedido_detail(DetailView):
 
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
-    fields = context['object']._meta.get_fields()
-    field_values = {field.name: getattr(context['object'], field.name) for field in fields if hasattr(context['object'], field.name)}
-    context['object'] = field_values
+    context['object'] = get_field_values(context['object'])
     context['Entity'] = 'pedidos'
     return context
 
@@ -119,9 +131,7 @@ class estoque_detail(DetailView):
 
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
-    fields = context['object']._meta.get_fields()
-    field_values = {field.name: getattr(context['object'], field.name) for field in fields if hasattr(context['object'], field.name)}
-    context['object'] = field_values
+    context['object'] = get_field_values(context['object'])
     context['Entity'] = 'estoque'
     return context
 
